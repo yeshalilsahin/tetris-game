@@ -1,0 +1,25 @@
+:root {
+    --activeTetrominoColor: red;
+}
+
+.empty {
+    width: 15px;
+    height: 15px;
+    background: gray;
+}
+
+.full {
+    width: 15px;
+    height: 15px;
+    background: var(--activeTetrominoColor);
+}
+
+.locked {
+    width: 15px;
+    height: 15px;
+    background: blue;
+}
+
+body {
+    margin: 2%;
+}

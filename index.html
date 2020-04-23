@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <title>Tetris Game</title>
+
+    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=0.7">
+
+
+
+</head>
+
+
+<body>
+
+    <div align="center">
+
+        <text id="welcomeMessage">Click Start to Play!</text>
+
+        <table id="gamearea"></table>
+        <text>Score: </text><text id="score">0</text>
+        <text>High Score: </text><text id="highscore">0</text>
+
+        <br><button onclick="startGame()">Start</button>
+        <button onclick="pauseGame()">Pause</button>
+        <button onclick="resetGame()">Reset</button>
+
+
+
+    </div>
+
+    <div align="center">
+        <footer>You should use keyboard arrows. <br> to Move on X axis. Up to rotate.</footer>
+    </div>
+
+
+
+
+    <script src="tetris.js"></script>
+</body>
+
+
+
+
+</html>
