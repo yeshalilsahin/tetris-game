@@ -13,10 +13,6 @@ const activeTetromino = {
 };
 
 
-
-
-
-
 const gameBoard = createMatrix(gameBoardColumn, gameBoardRow);
 let bodyStyle = document.body.style;
 let speed = 1;
@@ -25,9 +21,6 @@ let gamestatus;
 // 0 - good game
 // 1 - paused
 // 2 - game over
-
-
-
 
 function drawTable() {
     let cell = "";
@@ -145,8 +138,6 @@ function generateTetromino() {
 
     }
 
-
-
 }
 
 function updateTetromino(action) {
@@ -235,6 +226,7 @@ function lockTetromino() {
         }
     }
 
+
     checkRowFull();
     checkRowFull();
     checkRowFull();
@@ -275,6 +267,7 @@ function anyCollision(matrix) {
 
 function checkRowFull() {
 
+    let rowCountToDelete = 0;
     for (let row = gameBoard.length - 1; row > -1; row--) {
 
         let complete = true;
@@ -286,20 +279,16 @@ function checkRowFull() {
         }
 
         if (complete) {
-
-            console.log("full row found");
-
             for (let i = row; i > 1; i--) {
                 for (let j = 0; j < gameBoard[i].length; j++) {
-
                     gameBoard[i][j] = gameBoard[i - 1][j];
                 }
             }
-
             score += 10;
             scoreBoard.innerHTML = score;
 
         }
+
     }
 
     fillBoard();
@@ -330,18 +319,32 @@ function fillBoard() {
 const scoreBoard = document.getElementById("score");
 const highScoreBoard = document.getElementById("highscore");
 
-
-var storagedHighScore = localStorage.getItem("highscore");
-
-highScoreBoard.innerHTML = parseInt(storagedHighScore);
-
-
 let score = 0;
+let storagedHighScore;
+
+function initHighScore() {
+
+    storagedHighScore = localStorage.getItem("highscore");
+
+    if (storagedHighScore == null) {
+
+        localStorage.setItem("highscore", 0);
+
+
+    }
+
+    storagedHighScore = localStorage.getItem("highscore");
+
+    highScoreBoard.innerHTML = parseInt(storagedHighScore);
+
+}
+
+initHighScore();
 
 function resetGame() {
 
 
-    if (storagedHighScore || score > parseInt(storagedHighScore)) {
+    if (score > parseInt(storagedHighScore)) {
         localStorage.setItem("highscore", score);
 
         storagedHighScore = localStorage.getItem("highscore");
@@ -351,6 +354,7 @@ function resetGame() {
 
     score = 0;
     scoreBoard.innerHTML = score;
+    highScoreBoard.innerHTML = parseInt(storagedHighScore);
 
     clearInterval(game);
 
