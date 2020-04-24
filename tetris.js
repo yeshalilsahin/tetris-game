@@ -227,13 +227,9 @@ function lockTetromino() {
     }
 
 
-    checkRowFull();
-    checkRowFull();
-    checkRowFull();
-    checkRowFull();
-
-
-
+    for (let i = 0; i < activeTetromino.matrix.length; i++) {
+        checkRowFull();
+    }
 }
 
 
@@ -322,27 +318,29 @@ const highScoreBoard = document.getElementById("highscore");
 let score = 0;
 let storagedHighScore;
 
-function initHighScore() {
 
-    storagedHighScore = localStorage.getItem("highscore");
-
-    if (storagedHighScore == null) {
-
-        localStorage.setItem("highscore", 0);
-
-
-    }
-
-    storagedHighScore = localStorage.getItem("highscore");
-
-    highScoreBoard.innerHTML = parseInt(storagedHighScore);
-
+let currentPlayer = {
+    name: "",
+    score: 0,
 }
 
-initHighScore();
+
+function collectInformation() {
+    currentPlayer.name = prompt("Please enter your name", "");
+}
+
+collectInformation();
+
+let scoreList = JSON.parse(localStorage.getItem("scoreList")) || [];
+
+
 
 function resetGame() {
 
+    currentPlayer.score = score;
+    scoreList.push(currentPlayer);
+
+    localStorage.setItem("scoreList", JSON.stringify(scoreList));
 
     if (score > parseInt(storagedHighScore)) {
         localStorage.setItem("highscore", score);
@@ -351,14 +349,11 @@ function resetGame() {
 
     }
 
-
     score = 0;
     scoreBoard.innerHTML = score;
     highScoreBoard.innerHTML = parseInt(storagedHighScore);
 
     clearInterval(game);
-
-
 
     for (let i = 0; i < gameBoard.length; i++) {
         for (let j = 0; j < gameBoard[i].length; j++) {
@@ -372,7 +367,21 @@ function resetGame() {
     }
 
     generateTetromino();
+
 }
+
+function initHighScore() {
+    storagedHighScore = localStorage.getItem("highscore");
+    if (storagedHighScore == null) {
+        localStorage.setItem("highscore", 0);
+    }
+    storagedHighScore = localStorage.getItem("highscore");
+    highScoreBoard.innerHTML = parseInt(storagedHighScore);
+}
+
+initHighScore();
+
+
 
 document.addEventListener('keydown', control);
 
@@ -421,8 +430,6 @@ function startGame() {
 
 drawTable();
 generateTetromino();
-
-
 
 function messageChange() {
     switch (gamestatus) {
