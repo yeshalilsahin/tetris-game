@@ -1,11 +1,10 @@
 const gameBoardColumn = 10;
 const gameBoardRow = 20;
 
-let pieces = 'TJLOSZI';
 
 const activeTetromino = {
     matrix: null,
-    color: "yellow",
+    color: null,
     position: {
         x: 0,
         y: 0,
@@ -42,75 +41,88 @@ function createMatrix(column, row) {
     return matrix;
 }
 
-function createPiece(type) {
-    if (type === 'I') {
-        return [
+let pieces = 'TJLOSZI';
+
+const tetrominos = {
+    I: {
+        matrix: [
             [0, 1, 0, 0],
             [0, 1, 0, 0],
             [0, 1, 0, 0],
             [0, 1, 0, 0],
-        ];
-    } else if (type === 'L') {
-        return [
+        ],
+
+        color: "#0341AE",
+
+    },
+    L: {
+        matrix: [
             [0, 1, 0],
             [0, 1, 0],
             [0, 1, 1],
-        ];
-    } else if (type === 'J') {
-        return [
+        ],
+
+        color: "#72CB3B",
+    },
+
+    J: {
+        matrix: [
             [0, 1, 0],
             [0, 1, 0],
             [1, 1, 0],
-        ];
-    } else if (type === 'O') {
-        return [
+        ],
+
+        color: "#FFD500",
+    },
+
+    O: {
+        matrix: [
             [1, 1],
             [1, 1],
-        ];
-    } else if (type === 'Z') {
-        return [
+        ],
+
+        color: "#FF971C",
+
+
+    },
+    Z: {
+        matrix: [
             [1, 1, 0],
             [0, 1, 1],
             [0, 0, 0],
-        ];
-    } else if (type === 'S') {
-        return [
+        ],
+
+        color: "#FF3213",
+
+    },
+    S: {
+        matrix: [
             [0, 1, 1],
             [1, 1, 0],
             [0, 0, 0],
-        ];
-    } else if (type === 'T') {
-        return [
+        ],
+
+        color: "#28B463",
+
+    },
+    T: {
+        matrix: [
             [0, 1, 0],
             [1, 1, 1],
             [0, 0, 0],
-        ];
-    }
-}
+        ],
 
-function createColor(type) {
-    if (type === 'I') {
-        return "#0341AE";
-    } else if (type === 'L') {
-        return "#72CB3B";
-    } else if (type === 'J') {
-        return "#FFD500";
-    } else if (type === 'O') {
-        return "#FF971C";
-    } else if (type === 'Z') {
-        return "#FF3213";
-    } else if (type === 'S') {
-        return "#28B463";
-    } else if (type === 'T') {
-        return "#117A65";
-    }
-}
+        color: "#117A65",
+    },
+};
 
 function generateTetromino() {
 
-    selectedType = pieces[Math.floor(Math.random() * pieces.length)];
-    activeTetromino.matrix = createPiece(selectedType);
-    activeTetromino.color = createColor(selectedType);
+    var selectedType = pieces[Math.floor(Math.random() * pieces.length)];
+
+    activeTetromino.matrix = tetrominos[selectedType].matrix;
+    activeTetromino.color = tetrominos[selectedType].color;
+
     activeTetromino.position = {
         x: Math.floor(gameBoardColumn * 2 / 5),
         y: 0,
@@ -409,7 +421,7 @@ function startGame() {
 }
 
 function initGame() {
-    
+
     drawTable();
     generateTetromino();
     initHighScore();
