@@ -183,21 +183,6 @@ function moveTetrominoDown() {
 
 }
 
-function rotateMatrix(matrix) {
-    var theta = matrix.reduce((omega, alpha) => omega.concat(alpha));
-    var delta = [];
-    for (var x = 0; x < matrix[0].length; x++) {
-        var i = x;
-        delta[x] = [];
-        while (i < theta.length) {
-            delta[x].push(theta[i]);
-            i += matrix[0].length;
-        }
-        delta[x].reverse();
-    }
-    return delta;
-
-}
 
 function rotateTetromino() {
 
@@ -313,14 +298,14 @@ function fillBoard() {
 }
 
 const scoreBoard = document.getElementById("score");
-const highScoreBoard = document.getElementById("highscore");
+const highScore = document.getElementById("highscore");
 
 let score = 0;
 let storagedHighScore;
 
 
 let currentPlayer = {
-    name: "",
+    name: "Halil",
     score: 0,
 }
 
@@ -329,7 +314,6 @@ function collectInformation() {
     currentPlayer.name = prompt("Please enter your name", "");
 }
 
-collectInformation();
 
 let scoreList = JSON.parse(localStorage.getItem("scoreList")) || [];
 
@@ -338,7 +322,10 @@ let scoreList = JSON.parse(localStorage.getItem("scoreList")) || [];
 function resetGame() {
 
     currentPlayer.score = score;
-    scoreList.push(currentPlayer);
+
+    var tempUser = Object.assign({}, currentPlayer);
+
+    scoreList.push(tempUser);
 
     localStorage.setItem("scoreList", JSON.stringify(scoreList));
 
@@ -351,7 +338,7 @@ function resetGame() {
 
     score = 0;
     scoreBoard.innerHTML = score;
-    highScoreBoard.innerHTML = parseInt(storagedHighScore);
+    highScore.innerHTML = parseInt(storagedHighScore);
 
     clearInterval(game);
 
@@ -370,18 +357,11 @@ function resetGame() {
 
 }
 
-function initHighScore() {
-    storagedHighScore = localStorage.getItem("highscore");
-    if (storagedHighScore == null) {
-        localStorage.setItem("highscore", 0);
-    }
-    storagedHighScore = localStorage.getItem("highscore");
-    highScoreBoard.innerHTML = parseInt(storagedHighScore);
+function newPlayer() {
+    resetGame();
+    collectInformation();
+
 }
-
-initHighScore();
-
-
 
 document.addEventListener('keydown', control);
 
@@ -428,8 +408,49 @@ function startGame() {
 
 }
 
-drawTable();
-generateTetromino();
+function initGame() {
+    
+    drawTable();
+    generateTetromino();
+    initHighScore();
+
+}
+
+initGame();
+
+
+const highScoreList = document.getElementById("highScoreList");
+const recordedHighScores = JSON.parse(localStorage.getItem("scoreList")) || [];
+
+function extractRecords() {
+    for (let i = 0; i < recordedHighScores; i++) {
+
+        console.log(recordedHighScores[i][0]);
+
+    }
+}
+
+extractRecords();
+
+
+
+//Helpers 
+
+function rotateMatrix(matrix) {
+    var theta = matrix.reduce((omega, alpha) => omega.concat(alpha));
+    var delta = [];
+    for (var x = 0; x < matrix[0].length; x++) {
+        var i = x;
+        delta[x] = [];
+        while (i < theta.length) {
+            delta[x].push(theta[i]);
+            i += matrix[0].length;
+        }
+        delta[x].reverse();
+    }
+    return delta;
+
+}
 
 function messageChange() {
     switch (gamestatus) {
@@ -447,4 +468,19 @@ function messageChange() {
         default:
             break;
     }
+}
+
+function initHighScore() {
+
+    scoreList = [];
+
+    storagedHighScore = localStorage.getItem("highscore");
+
+    if (storagedHighScore == null) {
+        localStorage.setItem("highscore", 0);
+    }
+    storagedHighScore = localStorage.getItem("highscore");
+    highScore.innerHTML = parseInt(storagedHighScore);
+
+
 }
