@@ -1,7 +1,7 @@
 # JavaScript Tetris Game
 
 ## Why I built it?
-To understand game logic while using JavaScript first time.
+To understand game logic while using JavaScript first time without canvas.
 ## What I learn?
 * Inner for loops
 * Local Storage
@@ -18,3 +18,5 @@ Clone this repo to your local machine using https://github.com/yeshalilsahin/tet
 
 ## Support
 You can contact me through email. halilsahn@gmail.com
+
+![Tetris Game HTML,JS,CSS](https://github.com/yeshalilsahin/tetris-game/blob/master/tetris-screenshot.png?raw=true "Optional Title")
