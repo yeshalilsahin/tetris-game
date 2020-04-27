@@ -334,7 +334,7 @@ function resetGame() {
 
     currentPlayer.score = score;
 
-    var tempUser = Object.assign(currentPlayer);
+    var tempUser = Object.assign({}, currentPlayer);
 
     scoreList.push(tempUser);
 
@@ -438,7 +438,7 @@ function initHighScores() {
 
 
     // Sort- Slice than print 
-    
+
     list.sort(function (a, b) {
         return b.score - a.score;
     }).slice(0,5).forEach(function (player, index) {
