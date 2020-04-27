@@ -22,15 +22,15 @@ var gamestatus;
 // 2 - game over
 
 function drawTable() {
-    var cell = "";
+    var row = "";
     for (var i = 0; i < gameBoardRow; i++) {
-        cell += "<tr>";
+        row += "<tr>";
         for (var j = 0; j < gameBoardColumn; j++) {
-            cell += "<td id='R" + i + "C" + j + "' class='empty'></td>";
+            row += "<td id='R" + i + "C" + j + "' class='empty'></td>";
         }
-        cell += "</tr>";
+        row += "</tr>";
     }
-    document.getElementById("gamearea").innerHTML = cell;
+    document.getElementById("gamearea").innerHTML = row;
 }
 
 function createMatrix(column, row) {
@@ -141,8 +141,7 @@ function generateTetromino() {
 
         } else {
 
-            gamestatus = 2;
-            messageChange();
+            messageChange(2);
             resetGame();
 
 
@@ -331,6 +330,9 @@ var scoreList = JSON.parse(localStorage.getItem("scoreList")) || [];
 
 function resetGame() {
 
+    messageChange(0);
+
+
     currentPlayer.score = score;
 
     var tempUser = Object.assign({}, currentPlayer);
@@ -377,22 +379,22 @@ document.addEventListener('keydown', control);
 
 
 function control(event) {
-    switch (event.keyCode) {
-        case 37: //left move
+    switch (event.key) {
+        case "ArrowLeft":
             moveTetrominoHorizontal(-1);
             break;
 
-        case 39: //right move
+        case "ArrowRight":
             moveTetrominoHorizontal(1);
             break;
 
-        case 40: //down move
+        case "ArrowDown":
             gamestatus = 0;
             messageChange();
             moveTetrominoDown();
             break;
 
-        case 38: //rotate move
+        case "ArrowUp":
             rotateTetromino();
             break;
 
@@ -403,8 +405,7 @@ function control(event) {
 
 function pauseGame() {
 
-    gamestatus = 1;
-    messageChange();
+    messageChange(1);
     clearInterval(game);
 }
 
@@ -412,8 +413,7 @@ function pauseGame() {
 function startGame() {
 
     clearInterval(game); //clear interval everytime user pressed start button.
-    gamestatus = 0;
-    messageChange();
+    messageChange(0);
     game = setInterval(moveTetrominoDown, 1000 / speed);
 
 }
@@ -446,24 +446,25 @@ extractRecords();
 
 //Helpers 
 
-function rotateMatrix(matrix) {
+//rotate N*N MAtrix 90 Degree Clockwise Rotation 
+function rotateMatrix(matrix) { 
     var theta = matrix.reduce((omega, alpha) => omega.concat(alpha));
-    var delta = [];
+    var newMatrix = [];
     for (var x = 0; x < matrix[0].length; x++) {
         var i = x;
-        delta[x] = [];
+        newMatrix[x] = [];
         while (i < theta.length) {
-            delta[x].push(theta[i]);
+            newMatrix[x].push(theta[i]);
             i += matrix[0].length;
         }
-        delta[x].reverse();
+        newMatrix[x].reverse();
     }
-    return delta;
+    return newMatrix;
 
 }
 
-function messageChange() {
-    switch (gamestatus) {
+function messageChange(status) {
+    switch (status) {
         case 0:
             document.getElementById("welcomeMessage").innerHTML = " Good Game ";
             break;
