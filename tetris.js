@@ -1,8 +1,8 @@
-const gameBoardColumn = 10;
-const gameBoardRow = 20;
+var gameBoardColumn = 10;
+var gameBoardRow = 20;
 
 
-const activeTetromino = {
+var activeTetromino = {
     matrix: null,
     color: null,
     position: {
@@ -12,20 +12,20 @@ const activeTetromino = {
 };
 
 
-const gameBoard = createMatrix(gameBoardColumn, gameBoardRow);
-let bodyStyle = document.body.style;
-let speed = 1;
-let game;
-let gamestatus;
+var gameBoard = createMatrix(gameBoardColumn, gameBoardRow);
+var bodyStyle = document.body.style;
+var speed = 1;
+var game;
+var gamestatus;
 // 0 - good game
 // 1 - paused
 // 2 - game over
 
 function drawTable() {
-    let cell = "";
-    for (let i = 0; i < gameBoardRow; i++) {
+    var cell = "";
+    for (var i = 0; i < gameBoardRow; i++) {
         cell += "<tr>";
-        for (let j = 0; j < gameBoardColumn; j++) {
+        for (var j = 0; j < gameBoardColumn; j++) {
             cell += "<td id='R" + i + "C" + j + "' class='empty'></td>";
         }
         cell += "</tr>";
@@ -34,16 +34,16 @@ function drawTable() {
 }
 
 function createMatrix(column, row) {
-    const matrix = [];
+    var matrix = [];
     while (row--) {
         matrix.push(new Array(column).fill(0));
     }
     return matrix;
 }
 
-let pieces = 'TJLOSZI';
+var pieces = 'TJLOSZI';
 
-const tetrominos = {
+var tetrominos = {
     I: {
         matrix: [
             [0, 1, 0, 0],
@@ -153,14 +153,14 @@ function generateTetromino() {
 }
 
 function updateTetromino(action) {
-    for (let i = 0; i < activeTetromino.matrix.length; i++) {
-        for (let j = 0; j < activeTetromino.matrix[i].length; j++) {
+    for (var i = 0; i < activeTetromino.matrix.length; i++) {
+        for (var j = 0; j < activeTetromino.matrix[i].length; j++) {
             if (activeTetromino.matrix[i][j]) {
 
-                const xCoordinate = j + activeTetromino.position.x;
-                const yCoordinate = i + activeTetromino.position.y;
+                var xCoordinate = j + activeTetromino.position.x;
+                var yCoordinate = i + activeTetromino.position.y;
 
-                const id = 'R' + yCoordinate + 'C' + xCoordinate;
+                var id = 'R' + yCoordinate + 'C' + xCoordinate;
 
                 document.getElementById(id).className = action;
 
@@ -175,7 +175,6 @@ function moveTetrominoHorizontal(direction) {
 
     if (anyCollision(activeTetromino.matrix)) {
         activeTetromino.position.x -= direction;
-        updateTetromino("empty");
     }
 
     updateTetromino("full");
@@ -186,7 +185,6 @@ function moveTetrominoDown() {
     activeTetromino.position.y += 1;
 
     if (anyCollision(activeTetromino.matrix)) {
-
         activeTetromino.position.y -= 1;
         lockTetromino();
     }
@@ -198,7 +196,7 @@ function moveTetrominoDown() {
 
 function rotateTetromino() {
 
-    const newMatrix = rotateMatrix(activeTetromino.matrix);
+    var newMatrix = rotateMatrix(activeTetromino.matrix);
 
     if (!anyCollision(newMatrix)) {
         updateTetromino("empty");
@@ -208,13 +206,13 @@ function rotateTetromino() {
 }
 
 function lockTetromino() {
-    for (let i = 0; i < activeTetromino.matrix.length; i++) {
-        for (let j = 0; j < activeTetromino.matrix.length; j++) {
+    for (var i = 0; i < activeTetromino.matrix.length; i++) {
+        for (var j = 0; j < activeTetromino.matrix.length; j++) {
             if (activeTetromino.matrix[i][j] === 1) {
 
                 gameBoard[i + activeTetromino.position.y][j + activeTetromino.position.x] = 1;
 
-                const id =
+                var id =
                     'R' + (i + activeTetromino.position.y) +
                     'C' + (j + activeTetromino.position.x);
 
@@ -224,19 +222,19 @@ function lockTetromino() {
     }
 
 
-    for (let i = 0; i < activeTetromino.matrix.length; i++) {
+    for (var i = 0; i < activeTetromino.matrix.length; i++) {
         checkRowFull();
     }
 }
 
 
 function anyCollision(matrix) {
-    for (let i = 0; i < matrix.length; i++) {
-        for (let j = 0; j < matrix[i].length; j++) {
+    for (var i = 0; i < matrix.length; i++) {
+        for (var j = 0; j < matrix[i].length; j++) {
             if (matrix[j][i] == 1) {
 
-                const newX = activeTetromino.position.x + i;
-                const newY = activeTetromino.position.y + j;
+                var newX = activeTetromino.position.x + i;
+                var newY = activeTetromino.position.y + j;
 
                 if (newX < 0 || newX >= gameBoardColumn) {
                     return true;
@@ -260,20 +258,20 @@ function anyCollision(matrix) {
 
 function checkRowFull() {
 
-    let rowCountToDelete = 0;
-    for (let row = gameBoard.length - 1; row > -1; row--) {
+    var rowCountToDelete = 0;
+    for (var row = gameBoard.length - 1; row > -1; row--) {
 
-        let complete = true;
+        var complete = true;
 
-        for (let column = 0; column < gameBoard[row].length; column++) {
+        for (var column = 0; column < gameBoard[row].length; column++) {
             if (gameBoard[row][column] == 0) {
                 complete = false;
             }
         }
 
         if (complete) {
-            for (let i = row; i > 1; i--) {
-                for (let j = 0; j < gameBoard[i].length; j++) {
+            for (var i = row; i > 1; i--) {
+                for (var j = 0; j < gameBoard[i].length; j++) {
                     gameBoard[i][j] = gameBoard[i - 1][j];
                 }
             }
@@ -290,17 +288,17 @@ function checkRowFull() {
 }
 
 function fillBoard() {
-    for (let i = 0; i < gameBoard.length; i++) {
-        for (let j = 0; j < gameBoard[i].length; j++) {
+    for (var i = 0; i < gameBoard.length; i++) {
+        for (var j = 0; j < gameBoard[i].length; j++) {
             if (gameBoard[i][j] == 1) {
 
-                const id = 'R' + i + 'C' + j;
+                var id = 'R' + i + 'C' + j;
 
                 document.getElementById(id).className = "locked";
 
             } else {
 
-                const id = 'R' + i + 'C' + j;
+                var id = 'R' + i + 'C' + j;
 
                 document.getElementById(id).className = "empty";
             }
@@ -309,14 +307,14 @@ function fillBoard() {
     }
 }
 
-const scoreBoard = document.getElementById("score");
-const highScore = document.getElementById("highscore");
+var scoreBoard = document.getElementById("score");
+var highScore = document.getElementById("highscore");
 
-let score = 0;
-let storagedHighScore;
+var score = 0;
+var storagedHighScore;
 
 
-let currentPlayer = {
+var currentPlayer = {
     name: "Halil",
     score: 0,
 }
@@ -327,7 +325,7 @@ function collectInformation() {
 }
 
 
-let scoreList = JSON.parse(localStorage.getItem("scoreList")) || [];
+var scoreList = JSON.parse(localStorage.getItem("scoreList")) || [];
 
 
 
@@ -354,12 +352,12 @@ function resetGame() {
 
     clearInterval(game);
 
-    for (let i = 0; i < gameBoard.length; i++) {
-        for (let j = 0; j < gameBoard[i].length; j++) {
+    for (var i = 0; i < gameBoard.length; i++) {
+        for (var j = 0; j < gameBoard[i].length; j++) {
 
             gameBoard[i][j] = 0;
 
-            const id = 'R' + i + 'C' + j;
+            var id = 'R' + i + 'C' + j;
             document.getElementById(id).className = "empty";
 
         }
@@ -431,11 +429,11 @@ function initGame() {
 initGame();
 
 
-const highScoreList = document.getElementById("highScoreList");
-const recordedHighScores = JSON.parse(localStorage.getItem("scoreList")) || [];
+var highScoreList = document.getElementById("highScoreList");
+var recordedHighScores = JSON.parse(localStorage.getItem("scoreList")) || [];
 
 function extractRecords() {
-    for (let i = 0; i < recordedHighScores; i++) {
+    for (var i = 0; i < recordedHighScores; i++) {
 
         console.log(recordedHighScores[i][0]);
 
