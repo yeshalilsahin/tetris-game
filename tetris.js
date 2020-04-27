@@ -365,14 +365,14 @@ function resetGame() {
         }
     }
 
+    initHighScores();
+
     generateTetromino();
 
 }
 
 function newPlayer() {
-    resetGame();
     collectInformation();
-
 }
 
 document.addEventListener('keydown', control);
@@ -389,8 +389,7 @@ function control(event) {
             break;
 
         case "ArrowDown":
-            gamestatus = 0;
-            messageChange();
+            messageChange(0);
             moveTetrominoDown();
             break;
 
@@ -418,36 +417,48 @@ function startGame() {
 
 }
 
+var recordedHighScores = JSON.parse(localStorage.getItem("scoreList")) || [];
+
+
 function initGame() {
 
     drawTable();
     generateTetromino();
     initHighScore();
+    initHighScores();
 
 }
 
 initGame();
 
 
-var highScoreList = document.getElementById("highScoreList");
-var recordedHighScores = JSON.parse(localStorage.getItem("scoreList")) || [];
+function initHighScores() {
 
-function extractRecords() {
-    for (var i = 0; i < recordedHighScores; i++) {
+    var list = Object.assign(recordedHighScores);
+    var printOut = "";    
 
-        console.log(recordedHighScores[i][0]);
+    console.log(list);
+    
 
-    }
+    list.sort(function (a, b) {
+        return b.score - a.score;
+    }).forEach(function (player, index) {
+
+            list = list.slice(0,5);
+
+        printOut += '<div>' + "Name: " + player.name + ' Score:' + player.score + '</div>'
+        
+    });
+
+    document.getElementById("highScoreList").innerHTML = printOut;
+
 }
-
-extractRecords();
-
 
 
 //Helpers 
 
 //rotate N*N MAtrix 90 Degree Clockwise Rotation 
-function rotateMatrix(matrix) { 
+function rotateMatrix(matrix) {
     var theta = matrix.reduce((omega, alpha) => omega.concat(alpha));
     var newMatrix = [];
     for (var x = 0; x < matrix[0].length; x++) {
