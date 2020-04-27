@@ -1,7 +1,7 @@
 # JavaScript Tetris Game
 
 ## Why I built it?
-To understand game logic while using JavaScript first time without canvas.
+To understand game logic while using JavaScript first time without using HTML canvas.
 ## What I learn?
 * Inner for loops
 * Local Storage
