@@ -332,10 +332,9 @@ function resetGame() {
 
     messageChange(0);
 
-
     currentPlayer.score = score;
 
-    var tempUser = Object.assign({}, currentPlayer);
+    var tempUser = Object.assign(currentPlayer);
 
     scoreList.push(tempUser);
 
@@ -435,16 +434,15 @@ initGame();
 function initHighScores() {
 
     var list = Object.assign(recordedHighScores);
-    var printOut = "";    
+    var printOut = "";      
 
-    console.log(list);
+
+    // Sort- Slice than print 
     
-
     list.sort(function (a, b) {
         return b.score - a.score;
-    }).forEach(function (player, index) {
+    }).slice(0,5).forEach(function (player, index) {
 
-            list = list.slice(0,5);
 
         printOut += '<div>' + "Name: " + player.name + ' Score:' + player.score + '</div>'
         
