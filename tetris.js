@@ -21,6 +21,28 @@ var gamestatus;
 // 1 - paused
 // 2 - game over
 
+
+function drawTable()
+{
+	document.getElementById("gamearea").innerHTML = "";
+
+	for(var i = 0; i < gameBoardRow; i++)
+	{
+		var row = document.createElement("tr");
+
+		for(var j = 0; j < gameBoardColumn; j++)
+		{
+            var cell = document.createElement("td");
+            cell.id = 'R' + i + 'C' + j;
+            cell.className = "empty";
+			row.appendChild(cell);
+		}
+
+		document.getElementById("gamearea").appendChild(row);
+	}
+}
+
+/*
 function drawTable() {
     var row = "";
     for (var i = 0; i < gameBoardRow; i++) {
@@ -32,6 +54,7 @@ function drawTable() {
     }
     document.getElementById("gamearea").innerHTML = row;
 }
+*/
 
 function createMatrix(column, row) {
     var matrix = [];
